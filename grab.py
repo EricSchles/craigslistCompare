@@ -21,6 +21,7 @@ class Scraper:
                     urls.append(site+"?s="+str(i)+"00&")
         rs = (grequests.get(u) for u in urls)
         responses = grequests.map(rs)
+        ads = []
         for r in responses:
             
                     
