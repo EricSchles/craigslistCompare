@@ -30,11 +30,17 @@ class Scraper:
                     ads.append("http://"+r.url.split("/")[-3]+link)
         return ads
 
-
     def parse(self,link):
-        
+        values = {}
+        html = lxml.html.fromstring(r.text)
+        title = html.xpath('//h2[@class="postingtitle"]')
+        body = html.xpath('//section[@id="postingbody"]')
+
     def run(self):
         ads = self.setup()
         df = pd.DataFrame()
-        for ad in ads:
-            self.parse(ad)
+        rs = (grequests.get(u) for u in ads)
+        responses = grequests.map(rs)
+        for r in responses:
+            self.parse(r.text)
+            
