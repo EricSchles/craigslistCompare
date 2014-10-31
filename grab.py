@@ -2,7 +2,7 @@ import requests
 import lxml.html
 import pickle
 import grequests
-
+import pandas as pd
 class Scraper:
     def __init__(self):
         pass
@@ -23,5 +23,18 @@ class Scraper:
         responses = grequests.map(rs)
         ads = []
         for r in responses:
-            
-                    
+            html = lxml.html.fromstring(r.text)
+            links = html.xpath("//a/@href")
+            for link in links:
+                if "w4m" in link:
+                    ads.append("http://"+r.url.split("/")[-3]+link)
+        return ads
+
+
+    def parse(self,link):
+        
+    def run(self):
+        ads = self.setup()
+        df = pd.DataFrame()
+        for ad in ads:
+            self.parse(ad)
