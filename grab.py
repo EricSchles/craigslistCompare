@@ -48,5 +48,6 @@ class Scraper:
         rs = (grequests.get(u) for u in ads)
         responses = grequests.map(rs)
         for r in responses[:2]:
-            print self.parse(r)
-        
+            thing = self.parse(r)
+            if thing["body"] == []:
+                print r.url
