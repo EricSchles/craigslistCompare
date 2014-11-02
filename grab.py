@@ -37,10 +37,16 @@ class Scraper:
                         if not link in ads:
                             ads.append(link)
         return ads
+    
+    #found here: http://stackoverflow.com/questions/196345/how-to-check-if-a-string-in-python-is-in-ascii
+    def is_ascii(self,s):
+        return all(ord(c) < 128 for c in s)
 
     def parse(self,r):
         values = {}
         text = r.text.encode("ascii","ignore")
+        if not self.is_ascii(text):
+            print r.url
         html = lxml.html.fromstring(text)
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0] 
