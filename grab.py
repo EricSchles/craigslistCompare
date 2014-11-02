@@ -44,7 +44,7 @@ class Scraper:
     def parse(self,r):
         values = {}
         text = r.text.encode("ascii","ignore")
-        text = text.replace("\n","")
+        #text = text.replace("\n","")
         #text = text.replace("\r","")
         #text = text.replace("\t"," ")
         #text = text.replace(","," ")
