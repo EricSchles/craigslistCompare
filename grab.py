@@ -46,7 +46,7 @@ class Scraper:
         text = r.text.encode("ascii","ignore")
         text = text.replace("\n","")
         #text = text.replace("\r","")
-        text = text.replace("\t"," ")
+        #text = text.replace("\t"," ")
         #text = text.replace(","," ")
         html = lxml.html.fromstring(text)
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')][0]
