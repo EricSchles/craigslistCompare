@@ -5,6 +5,8 @@ import grequests
 import pandas as pd
 import time
 import os
+from unidecode import unidecode
+
 class Scraper:
     def __init__(self):
         pass
@@ -44,8 +46,8 @@ class Scraper:
         text = r.text.encode("ascii","ignore")
         html = lxml.html.fromstring(text)
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
-        values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0] 
-        values["phone_number"] = self.phone_number_grab(values["body"])
+        values["body"] = unidecode([i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0]) 
+        values["phone_number"] = unidecode(self.phone_number_grab(values["body"]))
         return values
 
     def save(self,r):
