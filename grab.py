@@ -50,7 +50,43 @@ class Scraper:
         text = r.text.encode("ascii","ignore")
         with open(name,"w") as f:
             f.write(text)
+
+    def letter_to_number(self,text):
+        text= text.upper()
+        text = text.replace("ONE","1")
+        text = text.replace("TWO","2")
+        text = text.replace("THREE","3")
+        text = text.replace("FOUR","4")
+        text = text.replace("FIVE","5")
+        text = text.replace("SIX","6")
+        text = text.replace("SEVEN","7")
+        text = text.replace("EIGHT","8")
+        text = text.replace("NINE","9")
+        text = text.replace("ZERO","0")
+        return text
         
+    def phone_number_grab(self,text):
+        text = self.letter_to_number(text)
+        phone = []
+        counter = 0
+        found = False
+        for ind,letter in enumerate(text):
+            if letter.isdigit():
+                phone.append(letter)
+                found = True
+            else:
+                if found:
+                    counter += 1
+                if counter > 8 and found:
+                    phone = []
+                    counter = 0
+                    found = False
+
+            if len(phone) == 10:
+                return ''.join(phone)
+
+        return ''
+
     def run(self):
         ads = self.setup()
         df = pd.DataFrame()
