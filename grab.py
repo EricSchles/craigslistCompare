@@ -32,7 +32,9 @@ class Scraper:
                     if "http" in  link:
                         continue
                     if "w4m" in link:
-                        ads.append("http://"+r.url.split("/")[-3]+link)
+                        link = "http://"+r.url.split("/")[-3]+link
+                        if not link in ads:
+                            ads.append(link)
         return ads
 
     def parse(self,r):
