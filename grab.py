@@ -107,7 +107,7 @@ class Scraper:
             os.mkdir("ads")
         os.chdir("ads")
         for r in responses:
-            self.save(r.text)
+            self.save(r)
             df = df.append(self.parse(r),ignore_index=True)
         os.chdir("../")
         df.to_csv("craigslist_data.csv")
