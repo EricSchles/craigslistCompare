@@ -42,13 +42,11 @@ class Scraper:
         values = {}
         text = r.text.encode("ascii","ignore")
         html = lxml.html.fromstring(text)
-        
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
         if [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] == []:
             print r.url
             print "found"
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] 
-        
         
         return values
 
@@ -108,6 +106,8 @@ class Scraper:
             os.mkdir("ads")
         os.chdir("ads")
         for r in responses:
+            if '<span id="has_been_removed"></span>' in r.text:
+                continue
             self.save(r)
             df = df.append(self.parse(r),ignore_index=True)
         os.chdir("../")
