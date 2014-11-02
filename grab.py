@@ -45,6 +45,12 @@ class Scraper:
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')]
         return values
 
+    def save(self,r):
+        name = "_".join(r.url.split("/")[-2:])
+        text = r.text.encode("ascii","ignore")
+        with open(name,"w") as f:
+            f.write(text)
+        
     def run(self):
         ads = self.setup()
         df = pd.DataFrame()
@@ -59,8 +65,9 @@ class Scraper:
             os.mkdir("ads")
         os.chdir("ads")
         for r in responses:
-            
+            self.save(r.text)
             df = df.append(self.parse(r),ignore_index=True)
+        os.chdir("../")
         df.to_csv("craigslist_data.csv")
         
         
