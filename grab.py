@@ -58,7 +58,8 @@ class Scraper:
         if not os.path.exists("ads"):
             os.mkdir("ads")
         os.chdir("ads")
-        for ind,r in enumerate(responses):
+        for r in responses:
+            
             df = df.append(self.parse(r),ignore_index=True)
         df.to_csv("craigslist_data.csv")
         
