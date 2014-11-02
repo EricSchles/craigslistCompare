@@ -45,8 +45,8 @@ class Scraper:
         values = {}
         text = r.text.encode("ascii","ignore")
         text = text.replace("\n","")
-        #text = text.replace("\r","")
-        #text = text.replace("\t"," ")
+        text = text.replace("\r","")
+        text = text.replace("\t"," ")
         text = text.replace(","," ")
         text = text.replace(";"," ")
         html = lxml.html.fromstring(text)
@@ -116,8 +116,6 @@ class Scraper:
             if '<span id="has_been_removed"></span>' in r.text:
                 continue
             self.save(r)
-            if " I travel for work so I don't have as much time as I like. I'd like to meet a single white successful professional who is 36 to 55. Please send me a photo. Thanks    " in r.text:
-                print r.url
             df = df.append(self.parse(r),ignore_index=True)
         
         os.chdir("../")
