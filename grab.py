@@ -53,7 +53,7 @@ class Scraper:
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')][0]
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0].encode("ascii","ignore") 
         values["phone_number"] = self.phone_number_grab(values["body"])
-        if "Hi I'm a swf" in text:
+        if "swf" in text:
             print r.url
         return values
 
