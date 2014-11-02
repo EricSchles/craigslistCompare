@@ -44,14 +44,17 @@ class Scraper:
     def parse(self,r):
         values = {}
         text = r.text.encode("ascii","ignore")
-        #text = text.replace("\n","")
+        text = text.replace("\n","")
         #text = text.replace("\r","")
         #text = text.replace("\t"," ")
-        #text = text.replace(","," ")
+        text = text.replace(","," ")
+        text = text.replace(";"," ")
         html = lxml.html.fromstring(text)
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')][0]
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0].encode("ascii","ignore") 
         values["phone_number"] = self.phone_number_grab(values["body"])
+        if "Hi I'm a swf" in text:
+            print r.url
         return values
 
     def save(self,r):
