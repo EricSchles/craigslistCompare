@@ -3,7 +3,8 @@ import lxml.html
 import pickle
 import grequests
 import pandas as pd
-
+import time
+import os
 class Scraper:
     def __init__(self):
         pass
@@ -41,8 +42,13 @@ class Scraper:
         values = {}
         text = r.text.encode("ascii","ignore")
         html = lxml.html.fromstring(text)
+        
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
-        values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')]
+        if len([i.text_content() for i in html.xpath('//section[@id="postingbody"]')]) >= 2:
+            print "found"
+        values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] 
+        
+        
         return values
 
     def save(self,r):
