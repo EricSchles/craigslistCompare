@@ -44,7 +44,7 @@ class Scraper:
         html = lxml.html.fromstring(text)
         
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
-        if len([i.text_content() for i in html.xpath('//section[@id="postingbody"]')]) >= 2:
+        if [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] == []:
             print "found"
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] 
         
