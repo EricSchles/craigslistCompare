@@ -53,7 +53,7 @@ class Scraper:
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')][0]
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0].encode("ascii","ignore") 
         values["phone_number"] = self.phone_number_grab(values["body"])
-        if "swf" in text:
+        if "I travel for work" in values["body"]:
             print r.url
         return values
 
@@ -118,6 +118,8 @@ class Scraper:
             if '<span id="has_been_removed"></span>' in r.text:
                 continue
             self.save(r)
+            if "Hi I'm a swf" in r.text:
+                print r.url
             df = df.append(self.parse(r),ignore_index=True)
         
         os.chdir("../")
