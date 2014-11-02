@@ -11,6 +11,7 @@ class Scraper:
     def setup(self,num_pages=2):
         craigslists= ["http://newyork.craigslist.org/","http://cnj.craigslist.org/","http://jerseyshore.craigslist.org/","http://newjersey.craigslist.org/","http://southjersey.craigslist.org/"]
         casual_encounters = []
+        ads = []
         for site in craigslists:
             base = site
             site = site+"search/w4m"
@@ -22,7 +23,6 @@ class Scraper:
                     urls.append(site+"?s="+str(i)+"00&")
             rs = (grequests.get(u) for u in urls)
             responses = grequests.map(rs)
-            ads = []
             for r in responses:
                 html = lxml.html.fromstring(r.text)
                 links = html.xpath("//a/@href")
@@ -48,6 +48,8 @@ class Scraper:
         df = pd.DataFrame()
         rs = (grequests.get(u) for u in ads)
         responses = grequests.map(rs)
-        for r in responses[:2]:
+        for ind,r in enumerate(responses):
+            if r.url == responses[ind-1].url:
+                print r.url
             df = df.append(self.parse(r),ignore_index=True)
-        print df
+        #print df
