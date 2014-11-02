@@ -27,6 +27,8 @@ class Scraper:
                 html = lxml.html.fromstring(r.text)
                 links = html.xpath("//a/@href")
                 for link in links:
+                    if "search" in link:
+                        continue
                     if "http" in  link:
                         continue
                     if "w4m" in link:
@@ -43,7 +45,6 @@ class Scraper:
 
     def run(self):
         ads = self.setup()
-        print ads
         df = pd.DataFrame()
         rs = (grequests.get(u) for u in ads)
         responses = grequests.map(rs)
