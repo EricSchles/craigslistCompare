@@ -43,9 +43,6 @@ class Scraper:
         text = r.text.encode("ascii","ignore")
         html = lxml.html.fromstring(text)
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
-        if [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] == []:
-            print r.url
-            print "found"
         values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] 
         
         return values
