@@ -43,8 +43,8 @@ class Scraper:
         text = r.text.encode("ascii","ignore")
         html = lxml.html.fromstring(text)
         values["title"] = [i.text_content() for i in html.xpath('//h2[@class="postingtitle"]')]
-        values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')] 
-        
+        values["body"] = [i.text_content() for i in html.xpath('//section[@id="postingbody"]')][0] 
+        values["phone_number"] = self.phone_number_grab(values["body"])
         return values
 
     def save(self,r):
@@ -68,6 +68,8 @@ class Scraper:
         return text
         
     def phone_number_grab(self,text):
+        if text == '':
+            return ''
         text = self.letter_to_number(text)
         phone = []
         counter = 0
@@ -107,6 +109,7 @@ class Scraper:
                 continue
             self.save(r)
             df = df.append(self.parse(r),ignore_index=True)
+        
         os.chdir("../")
         df.to_csv("craigslist_data.csv")
         
