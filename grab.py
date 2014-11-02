@@ -50,8 +50,16 @@ class Scraper:
         df = pd.DataFrame()
         rs = (grequests.get(u) for u in ads)
         responses = grequests.map(rs)
+        now = time.strftime("%m_%d_%y_%H")
+        folder = craigslist+now
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+        os.chdir(folder)
+        if not os.path.exists("ads"):
+            os.mkdir("ads")
+        os.chdir("ads")
         for ind,r in enumerate(responses):
-            if r.url == responses[ind-1].url:
-                print r.url
             df = df.append(self.parse(r),ignore_index=True)
-        #print df
+        df.to_csv("craigslist_data.csv")
+        
+        
