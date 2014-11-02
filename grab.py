@@ -99,7 +99,7 @@ class Scraper:
         rs = (grequests.get(u) for u in ads)
         responses = grequests.map(rs)
         now = time.strftime("%m_%d_%y_%H")
-        folder = craigslist+now
+        folder = "craigslist"+now
         if not os.path.exists(folder):
             os.mkdir(folder)
         os.chdir(folder)
